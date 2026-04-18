@@ -73,9 +73,9 @@
 <p>在自动驾驶系统（Autonomous Driving System, ADS）中，<strong>感知模块（Perception）</strong>是整个车辆智能化的基础。交通标志识别（Traffic Sign Recognition, TSR）不仅要求高准确率以确保行驶安全，还要求极低的延迟以满足实时控制的需求。</p>
 <p>本模块作为 <code>OpenHUTB/nn</code> 仓库的重要扩充，首次将最前沿的 <strong>YOLOv8 轻量化神经网络</strong>与 <strong>Carla 高逼真自动驾驶模拟器</strong>深度结合，构建了一套端到端（End-to-End）的视觉感知验证流水线。本项目的实现，不仅弥补了现有框架在静态交通环境感知上的空白，也为后续接入强化学习控制模块打下了视觉数据基础。</p>
 <h2 id="2">2. 系统架构设计</h2>
-<p>本模块基于 <strong>“Server-Client（服务端-客户端）”</strong> 架构运行：
-* <strong>Server 端 (Carla Simulator)</strong>：负责物理引擎计算、光影渲染渲染、交通流模拟，并提供高保真的 RGB 传感器数据。
-* <strong>Client 端 (Python 神经网络引擎)</strong>：通过 Carla API 接入，承担数据预处理、YOLOv8 模型前向推理、以及车辆的反向运动控制交互。</p>
+<p>本模块基于 <strong>“Server-Client（服务端-客户端）”</strong> 架构运行：<br />
+<em> </em><em>Server 端 (Carla Simulator)</em><em>：负责物理引擎计算、光影渲染渲染、交通流模拟，并提供高保真的 RGB 传感器数据。<br />
+</em> <strong>Client 端 (Python 神经网络引擎)</strong>：通过 Carla API 接入，承担数据预处理、YOLOv8 模型前向推理、以及车辆的反向运动控制交互。</p>
 <p>整个数据流转是一个闭环：<code>场景渲染 -&gt; 传感器采样 -&gt; 神经网络目标检测 -&gt; OpenCV 结果可视化交互</code>。</p>
 <h2 id="3">3. 环境依赖与快速部署</h2>
 <p>为了确保模块的高效运行，推荐在带有独立显卡的设备上配置环境。</p>
