@@ -124,6 +124,7 @@ python src/carla_traffic_sign_recognition/main.py
 <h3 id="43-human-in-the-loop">4.3 异步渲染与“人在回路”交互逻辑 (Human-in-the-loop)</h3>
 <p>解决神经网络推理与 Carla 物理世界时钟同步是本项目的工程亮点。为了方便录制演示 Demo 并彻底规避 Carla 原生 Autopilot 巡航时的不可控随机性，我们创新性地剥离了自动驾驶模块。</p>
 <p>在主循环中，我们引入了 OpenCV 的按键事件监听机制 (<code>cv2.waitKey</code>)。系统通过非阻塞方式精准捕获用户的 <code>W/A/S/D</code> 键盘指令，并通过平滑插值算法将其映射为 <code>carla.VehicleControl()</code> 的油门（Throttle）、刹车（Brake）和转向（Steer）参数。这一设计成功实现了从“纯看客”到“人在回路接管”的转变。</p>
+<p><img alt="操纵）" src="../assets/image-20260418195910551.png" /></p>
 <h2 id="5-troubleshooting">5. 工程实践与部署避坑指南 (Troubleshooting)</h2>
 <p>在向官方开源社区提交代码的过程中，我们克服了一系列棘手的底层环境与网络部署问题：</p>
 <ol>
@@ -133,6 +134,7 @@ python src/carla_traffic_sign_recognition/main.py
 </ol>
 <h2 id="6">6. 运行效果展示</h2>
 <p>当用户驾驶 Ego Vehicle 接近十字路口时，YOLO 视觉引擎能够在复杂的城市背景、不同的光照条件以及多变的角度下，稳定锁定目标。</p>
+<p><img alt="Carla 第一视角：YOLOv8 检测 Stop Sign（置信度示例）" src="../assets/2026-04-18_222914.png" /></p>
 <blockquote>
 <p><em>图：Carla 模拟器中的实车第一视角。经过张量重塑与 NMS 过滤后，YOLOv8 成功锁定 Stop Sign 并实时绘制检测框，整体感知延迟稳定在 30ms 量级。</em></p>
 </blockquote>
