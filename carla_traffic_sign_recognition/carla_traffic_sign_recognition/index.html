@@ -87,7 +87,7 @@
 <hr />
 <h2 id="2">2. 系统架构与通信机制</h2>
 <p>本模块严格遵循 Carla 官方推荐的 <strong>Client-Server 异步架构</strong>。图 2.1 展示了系统内部的数据流转闭环。</p>
-<p><img src="assets\1.png" style="zoom:18%;" /></p>
+<p><img src="assets/1.png" style="zoom:18%;" /></p>
 <p><em>图 2.1：系统核心数据流与模块交互示意图。从物理模拟到神经网络推理再到可视化控制，构成了完整的感知闭环。</em></p>
 <h3 id="21-server-carla">2.1 Server 端：Carla 物理模拟核心</h3>
 <p>Carla 服务端（通常通过 <code>CarlaUE4.exe</code> 运行）承担高负载的物理计算与图形渲染任务。它独立于 Python 进程运行，通过本地 <strong>2000 端口</strong> 对外暴露 RPC（Remote Procedure Call）服务。服务端负责：</p>
