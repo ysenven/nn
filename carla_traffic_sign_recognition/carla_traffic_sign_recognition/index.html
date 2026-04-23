@@ -14,7 +14,7 @@
       <script>
         // Current page data
         var mkdocs_page_name = "\u57fa\u4e8e YOLOv8 \u4e0e Carla \u7684\u4ea4\u901a\u6807\u5fd7\u5b9e\u65f6\u611f\u77e5\u4e0e\u4ea4\u4e92\u63a7\u5236\u7cfb\u7edf";
-        var mkdocs_page_input_path = "carla_traffic_sign_recognition\\carla_traffic_sign_recognition.md";
+        var mkdocs_page_input_path = "carla_traffic_sign_recognition/carla_traffic_sign_recognition.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -34,7 +34,7 @@
           <a href="../.." class="icon icon-home"> 神经网络
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="搜索文档" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -60,7 +60,7 @@
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">基于 YOLOv8 与 Carla 的交通标志实时感知与交互控制系统</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/OpenHUTB/nn/edit/master/docs/carla_traffic_sign_recognition/carla_traffic_sign_recognition.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/OpenHUTB/nn/edit/master/docs/carla_traffic_sign_recognition/carla_traffic_sign_recognition.md" class="icon icon-github"> 在 GitHub 上编辑</a>
     </li>
   </ul>
   <hr/>
@@ -87,7 +87,7 @@
 <hr />
 <h2 id="2">2. 系统架构与通信机制</h2>
 <p>本模块严格遵循 Carla 官方推荐的 <strong>Client-Server 异步架构</strong>。图 2.1 展示了系统内部的数据流转闭环。</p>
-<p><img alt="数据流转闭环" src="../assets/1.png" /></p>
+<p><img alt="数据流转闭环" src="assets/1.png" /></p>
 <p><em>图 2.1：系统核心数据流与模块交互示意图。从物理模拟到神经网络推理再到可视化控制，构成了完整的感知闭环。</em></p>
 <h3 id="21-server-carla">2.1 Server 端：Carla 物理模拟核心</h3>
 <p>Carla 服务端（通常通过 <code>CarlaUE4.exe</code> 运行）承担高负载的物理计算与图形渲染任务。它独立于 Python 进程运行，通过本地 <strong>2000 端口</strong> 对外暴露 RPC（Remote Procedure Call）服务。服务端负责：</p>
@@ -152,7 +152,41 @@ control.steer   += np.clip(target_steer - control.steer, -steer_step, steer_step
 <li><strong>档位切换防抖</strong>：代码中监测了 <code>current_speed &lt; 0.2 m/s</code> 才允许切换 <code>reverse</code> 标志位。这防止了高速行驶时误触 <code>S</code> 键导致变速箱逻辑混乱（现实中会损坏变速箱），体现了对汽车工程细节的考量。</li>
 </ul>
 <hr />
-<h2 id="4">4. 棘手环境问题排查与修复记录</h2>
+<h2 id="4">4. 工程实践与开源协作过程</h2>
+<p>本项目的实施过程严格遵循了企业级 Git Flow 工作流。以下记录了从环境搭建到成功推送的完整技术日志，这是《基础软件和开源系统》课程要求的核心实践环节。</p>
+<h3 id="41">4.1 分支管理与代码托管策略</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">步骤</th>
+<th style="text-align: left;">操作指令</th>
+<th style="text-align: left;">目的与说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>克隆与分支</strong></td>
+<td style="text-align: left;"><code>git checkout -b dev-yss</code></td>
+<td style="text-align: left;">从 <code>main</code> 拉出新分支，遵循 <strong>GitHub Flow</strong> 规范，确保主分支的稳定性不受开发中的代码影响。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>代码开发</strong></td>
+<td style="text-align: left;">编写 <code>main.py</code> 与 <code>README.md</code></td>
+<td style="text-align: left;">在本地分支进行迭代开发与测试。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>暂存与提交</strong></td>
+<td style="text-align: left;"><code>git add .</code> <code>git commit -m "feat: Add Carla TSR module"</code></td>
+<td style="text-align: left;">遵循 <strong>Conventional Commits</strong> 规范编写提交信息，便于后续生成变更日志（Changelog）。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>首次推送</strong></td>
+<td style="text-align: left;"><code>git push --set-upstream origin dev-yss</code></td>
+<td style="text-align: left;">将本地功能分支推送到远程仓库，准备发起 Pull Request。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42">4.2 棘手环境问题排查与修复记录</h3>
 <p>在实际部署过程中，遇到了 Windows 系统与 Git 底层交互的特定报错，以下是详细排雷过程，具有极高的教学参考价值。</p>
 <p><strong>故障 1：幽灵文件 <code>nul</code> 索引错误</strong></p>
 <ul>
@@ -244,9 +278,9 @@ python src/carla_traffic_sign_recognition/main.py
 <li><strong>近距离锁定</strong>：随着距离拉近，置信度迅速攀升至 <strong>0.85 - 0.95</strong> 区间，检测框稳定无抖动。</li>
 <li><strong>交互响应</strong>：按下 <code>W</code> 键，车辆平滑加速；按下 <code>S</code> 键，车辆依据当前速度智能判断是减速还是倒车。</li>
 </ul>
-<p><img alt="操作展示" src="../assets/image-20260418195910551.png" /></p>
+<p><img alt="操作展示" src="assets/image-20260418195910551.png" /></p>
 <p><em>图 6.1：展示操作说明。</em></p>
-<p><img alt="Carla 模拟器实车第一视角" src="../assets/2026-04-18_222914.png" /></p>
+<p><img alt="Carla 模拟器实车第一视角" src="assets/2026-04-18_222914.png" /></p>
 <p><em>图 6.2：Carla 模拟器实车第一视角。左侧画面叠加了 YOLOv8 推理结果，展示了 Stop Sign 的精准识别。</em></p>
 <h3 id="62">6.2 性能基准测试</h3>
 <p>在搭载 NVIDIA RTX 3060 Laptop GPU 的测试平台上，针对 <code>640x360</code> 分辨率输入：</p>
@@ -278,7 +312,6 @@ python src/carla_traffic_sign_recognition/main.py
       <p>OpenHUTB 版权所有 &copy; 2026</p>
   </div>
 
-  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
           
         </div>
